@@ -125,7 +125,10 @@ def main_loop():
                 
                 while True:
                     chest_counts = getChests(quest_number)
-                    if quest_number == 4 and chest_counts[0] == "0" and not any(c.isdigit() for c in chest_counts[0]):
+                    if quest_number == 4 and chest_counts[0] == "0":
+                        logging.info("No text detected for quest 4, stopping reroll attempts.")
+                        break
+                    if quest_number == 4 and not any(c.isdigit() for c in chest_counts[0]):
                         logging.info("No text detected at all for quest 4, stopping reroll attempts.")
                         break
                     if not chest_counts[0].isdigit():

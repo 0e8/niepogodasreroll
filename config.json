@@ -3,7 +3,7 @@
         "quest1": 20,
         "quest2": 20,
         "quest3": 20,
-        "quest4": 20
+        "quest4": 6
     },
     "chest_type": {
         "quest1": "artifact chest",

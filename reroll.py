@@ -10,7 +10,7 @@ import os
 import logging
 from PIL import ImageGrab
 
-# Setup logging
+# Setup logging fr
 try:
     os.remove("latest.log")
 except FileNotFoundError:

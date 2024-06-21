@@ -1,6 +1,6 @@
 import tkinter as tk
-from tkinter import messagebox
 import json
+from tkinter import messagebox
 
 class RegionSelector:
     def __init__(self, root):

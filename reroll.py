@@ -1,4 +1,3 @@
-import ctypes
 import pytesseract
 import re
 import time
@@ -10,7 +9,6 @@ import json
 import os
 import logging
 from PIL import ImageGrab
-from tkinter import Tk, messagebox
 
 # Setup logging
 try:
@@ -23,10 +21,6 @@ log_filename = "latest.log"
 file_handler = logging.FileHandler(log_filename)
 file_handler.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s - %(message)s'))
 logging.getLogger().addHandler(file_handler)
-
-# Configure pytesseract
-# Comment out the line below if tesseract is in the PATH
-# pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 
 # Load configuration
 try:
@@ -81,6 +75,9 @@ def getChests(quest_number):
     try:
         OCR_result = pytesseract.image_to_string(thresh)
         logging.info(f"Successfully read quest {quest_number} content: {OCR_result}")
+        if not OCR_result.strip():
+            logging.info(f"No text detected for quest {quest_number}")
+            return ["0"]
         chest_type = config["chest_type"][f"quest{quest_number}"]
         filtered = [re.search(r'(\d+)', item).group(1) for item in OCR_result.split('\n') if chest_type.lower() in item.lower()]
     except Exception as e:
@@ -125,13 +122,17 @@ def main_loop():
                     else:
                         logging.info(f"Quest {quest_number} region not defined. Skipping.")
                     continue
+                
                 while True:
-                    chest_count = int(getChests(quest_number)[0])
+                    chest_counts = getChests(quest_number)
+                    if quest_number == 4 and chest_counts[0] == "0" and not any(c.isdigit() for c in chest_counts[0]):
+                        logging.info("No text detected at all for quest 4, stopping reroll attempts.")
+                        break
+                    if not chest_counts[0].isdigit():
+                        break
+                    chest_count = int(chest_counts[0])
                     if chest_count >= config["minimum_chests"][f"quest{quest_number}"]:
                         logging.info(f"Quest {quest_number} has enough chests: {chest_count}")
-                        break
-                    if quest_number == 4 and not getChests(quest_number)[0].isdigit():
-                        logging.info("No text detected for quest 4, stopping reroll attempts.")
                         break
                     reroll(quest_number)
                     time.sleep(DELAY)

@@ -132,7 +132,7 @@ class RegionSelector:
             self.reroll3_label.config(text=coord_text)
 
     def save_regions(self):
-        with open("regions.json", "w") as file:
+        with open("regions.json", "w", encoding="utf-8") as file:
             json.dump({'regions': self.regions, 'buttons': self.buttons}, file)
         messagebox.showinfo("Success", "Regions and buttons saved successfully!")
         self.root.quit()

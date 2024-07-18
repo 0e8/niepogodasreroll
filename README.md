@@ -1,4 +1,5 @@
 # niepogoda's reroll script
+## my discord god falsly banned, waiting for support to respond... sorry
 
 [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/dwyl/esta/issues) ![GitHub commit activity](https://img.shields.io/github/commit-activity/m/0e8/niepogodasreroll)
 
